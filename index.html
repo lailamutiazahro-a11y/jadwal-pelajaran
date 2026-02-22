@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Jadwal Pelajaran</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial;
+      margin: 0;
+      text-align: center;
+      background: linear-gradient(to right, #667eea, #764ba2);
+
+    }
+
+    h1 {
+      color: white;
+      padding: 15px;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      margin: 20px;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    }
+
+    select, button {
+      margin: 8px;
+      padding: 12px;
+      width: 80%;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+    }
+
+    button {
+      background: #34495e;
+      color: white;
+    }
+
+    .card {
+      background: #f9f9f9;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 10px;
+      text-align: left;
+    }
+
+    /* WARNA TIAP KELAS */
+    .X { background: #3498db; }
+    .XI { background: #27ae60; }
+    .XII { background: #e74c3c; }
+  </style>
+</head>
+
+<body>
+<div id="landing">
+<h1 id="judul">📚 Jadwal Pelajaran </h1>
+<h3>  Siswa Siswi SMK Daarul Abroor </h3>
+<audio id="KlikSound" src="click.mp3.wav"></audio>
+<button onclick="masukApp()">Masuk</button>
+</div>
+
+<!-- 🔹 HALAMAN UTAMA (DIBUNGKUS DI SINI) -->
+<div id="app" style="display:none;">
+
+<h1 id="judul">📚 Jadwal Pelajaran</h1>
+
+<div class="container">
+
+  <!-- PILIH KELAS -->
+  <select id="kelas" onchange="gantiWarna()">
+    <option value="">-- Pilih Kelas --</option>
+    <option value="X">Kelas X</option>
+    <option value="XI">Kelas XI</option>
+    <option value="XII">Kelas XII</option>
+  </select>
+
+  <!-- HARI -->
+  
+  <button onclick="bunyiKlik(); tampil('senin')">Senin</button>
+  <button onclick="bunyiKlik(); tampil('selasa')">Selasa</button>
+  <button onclick="bunyiKlik(); tampil('rabu')">Rabu</button>
+  <button onclick="bunyiKlik(); tampil('kamis')">Kamis</button>
+  <button onclick="bunyiKlik(); tampil('jumat')">Jumat</button>
+
+  <button onclick="keluarApp()">Keluar</button>
+
+  <div id="jadwal"></div>
+
+</div>
+
+<script>
+function gantiWarna() {
+  let kelas = document.getElementById("kelas").value;
+  let judul = document.getElementById("judul");
+
+  judul.className = kelas;
+}
+
+function tampil(hari) {
+  let kelas = document.getElementById("kelas").value;
+
+  if (kelas === "") {
+    alert("Pilih kelas dulu!");
+    return;
+  }
+
+  let data = {
+    X: {
+      senin: [
+        "07:00 - 08:00 Matematika - Pak Budi",
+        "08:00 - 09:00 Bahasa Indonesia - Bu Sari",
+        "09:00 - 10:00 IPA - Pak Dedi"
+      ],
+      selasa: [
+        "07:00 - 08:00 Inggris - Bu Lina",
+        "08:00 - 09:00 PJOK - Pak Agus"
+      ],
+      rabu: [
+        "07:00 - 08:00 IPS - Bu Rina",
+        "08:00 - 09:00 PKN - Pak Joko"
+      ],
+      kamis: [
+        "07:00 - 08:00 TIK - Pak Andi",
+        "08:00 - 09:00 IPA - Bu Dewi"
+      ],
+      jumat: [
+        "07:00 - 08:00 Agama - Pak Udin"
+      ]
+    },
+
+    XI: {
+      senin: [
+        "07:00 - 08:00 Fisika - Pak Andi",
+        "08:00 - 09:00 Kimia - Bu Rina"
+      ],
+      selasa: [
+        "07:00 - 08:00 Matematika - Pak Budi",
+        "08:00 - 09:00 Inggris - Bu Lina"
+      ],
+      rabu: [
+        "07:00 - 08:00 Biologi - Bu Dewi"
+      ],
+      kamis: [
+        "07:00 - 08:00 Sejarah - Pak Joko"
+      ],
+      jumat: [
+        "07:00 - 08:00 Agama - Pak Udin"
+      ]
+    },
+
+    XII: {
+      senin: [
+        "07:00 - 08:00 Biologi - Bu Dewi",
+        "08:00 - 09:00 Inggris - Pak Joko"
+      ],
+      selasa: [
+        "07:00 - 08:00 Matematika - Pak Budi"
+      ],
+      rabu: [
+        "07:00 - 08:00 Kimia - Bu Rina"
+      ],
+      kamis: [
+        "07:00 - 08:00 Fisika - Pak Andi"
+      ],
+      jumat: [
+        "07:00 - 08:00 Agama - Pak Udin"
+      ]
+    }
+  };
+
+  let hasil = `<h2>Kelas ${kelas} - ${hari.toUpperCase()}</h2>`;
+
+  data[kelas][hari].forEach(item => {
+    hasil += `<div class="card">⏰ ${item}</div>`;
+  });
+
+  document.getElementById("jadwal").innerHTML = hasil;
+}
+
+function bunyiKlik() {
+  let sound = document.getElementById("KlikSound");
+  sound.currentTimev= 0;
+  sound.play();
+}
+
+function masukApp() {
+  document.getElementById("landing").style.display = "none";
+  document.getElementById("app").style.display = "block";
+}
+
+function keluarApp() {
+  document.getElementById("app").style.display = "none";
+  document.getElementById("landing").style.display = "block";
+}
+</script>
+
+</body>
+</html>
